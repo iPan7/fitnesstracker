@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
-const path = require("path");
+const routes = require('./routes');
 const app = express();
 
 mongoose.connect(
@@ -14,9 +14,16 @@ mongoose.connect(
 
 console.log("The server is listening");
 
-app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "public","index.html"));
-  });
-
 const PORT = process.env.PORT || 3000;
+
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(routes);
+
+// app.get("/", function(req, res) {
+//     res.sendFile(path.join(__dirname, "public","index.html"));
+//   });
+
+
 app.listen(PORT);
