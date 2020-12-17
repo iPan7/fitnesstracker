@@ -3,16 +3,17 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const routes = require('./routes');
 const app = express();
+require('dotenv').config()
 
-mongoose.connect(
-    keys.mongoURI,
-    {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-    }
-);
-
-console.log("The server is listening");
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useUnifiedTopology: true
+  })
+    .then(() => console.log('Connection to DB works!'))
+    .catch(e => console.log(e));
+  
+  mongoose.set('debug', true);
 
 const PORT = process.env.PORT || 3000;
 
